@@ -1,0 +1,60 @@
+# Hosting name: <%= name  %>
+# Contact person: <%= contact %>
+<% if ip != "NONE" %>
+# DNS points to: <%= ip %>
+<% end -%>
+
+server {
+  server_name <%= url %>
+  <% url_aliases.each do |val| -%>
+              <%= val %>
+  <% end -%>
+              ;
+
+  if ($host != '<%= url %>' ) {
+    rewrite ^/(.*)$ http://<%= url %>/$1 permanent;
+  }
+
+  access_log /var/log/nginx/<%= url %>.access.log combined;
+  error_log /var/log/nginx/<%= url %>.error.log;
+
+  index index.html index.htm;
+  <% if custom_document_root == false %>
+  root /www/<%= url %>;
+  <% else %>
+  root <%= custom_document_root %>;
+  <% end -%>
+
+  location = /favicon.ico {
+    log_not_found off;
+    access_log off;
+  }
+
+  location = /robots.txt {
+    allow all;
+    log_not_found off;
+    access_log off;
+  }
+
+  location ~* \.(ico|css|js|gif|jpg|jpeg|png|zip)$ {
+    expires max;
+    log_not_found off;
+  }
+
+  location ~ /\. {
+    access_log off;
+    log_not_found off;
+    deny all;
+  }
+
+  location ~* \.(inc|py|pyc)$ {
+    deny all;
+  }
+
+  <% if cloudflare == 'true' %>
+  include sites-available/cloudflare.inc;
+  <% end -%>
+
+  # Place any custom code in this file:
+  include sites-available/<%= url %>_custom.inc;
+}
