@@ -14,8 +14,8 @@ Here's a example of how puppet-hosting work:
       type        => 'wordpress',
       url         => 'mysite.net',
       url_aliases => ['mysite.*', 'www.mysite.net'],
-      ip          => $ipaddress_eth0
-      contact     => 'Viktor Petersson <vpetersson@wireload.net>'
+      ip          => $ipaddress_eth0,
+      contact     => 'Viktor Petersson <vpetersson@wireload.net>',
     }
 
 The above snippet is all you need to setup a hosting environment. It will:
