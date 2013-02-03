@@ -92,7 +92,7 @@ class hosting {
   #
   # === Examples
   #
-  #   hosting::wordpress { 'WireLoad':
+  #   hosting::site { 'WireLoad':
   #     type        => 'wordpress',
   #     url         => 'wireload.net',
   #     url_aliases => ['wireload.*', 'www.wireload.net'],

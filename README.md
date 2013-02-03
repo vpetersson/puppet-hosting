@@ -10,7 +10,7 @@ Enter puppet-hosting. It's a Puppet-modules that solves this mess. Puppet-hostin
 
 Here's a example of how puppet-hosting work:
 
-    hosting::wordpress { 'My Website':
+    hosting::site { 'My Website':
       type        => 'wordpress',
       url         => 'mysite.net',
       url_aliases => ['mysite.*', 'www.mysite.net'],
