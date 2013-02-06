@@ -9,7 +9,7 @@ class hosting::mysql {
 
   service { 'mysql':
     ensure  => running,
-    require => Package['mysql']
+    require => Package['mysql-server']
   }
 
 }
