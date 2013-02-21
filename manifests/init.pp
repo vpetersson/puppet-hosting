@@ -31,15 +31,17 @@ class hosting {
   }
 
   file { 'w3tc.inc':
-    ensure => file,
-    path   => '/etc/nginx/sites-available/w3tc.inc',
-    source => 'puppet:///modules/hosting/w3tc.inc',
+    ensure  => file,
+    path    => '/etc/nginx/sites-available/w3tc.inc',
+    source  => 'puppet:///modules/hosting/w3tc.inc',
+    require => Package['nginx'],
   }
 
   file { 'cloudflare.inc':
-    ensure => file,
-    path   => '/etc/nginx/sites-available/cloudflare.inc',
-    source => 'puppet:///modules/hosting/cloudflare.inc',
+    ensure  => file,
+    path    => '/etc/nginx/sites-available/cloudflare.inc',
+    source  => 'puppet:///modules/hosting/cloudflare.inc',
+    require => Package['nginx']
   }
 
   # == Define: site
