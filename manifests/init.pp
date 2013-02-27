@@ -121,6 +121,7 @@ class hosting {
       file { "vhost_${url}":
         ensure  => file,
         path    => "/etc/nginx/sites-available/${url}.conf",
+        require => Package['nginx'],
       }
     }
     else {
@@ -128,7 +129,10 @@ class hosting {
         ensure  => file,
         path    => "/etc/nginx/sites-available/${url}.conf",
         content => template("hosting/${type}.erb"),
-        require => File['w3tc.inc'],
+        require => [
+          File['w3tc.inc'],
+          Package['nginx'],
+        ],
       }
     }
 
@@ -136,12 +140,16 @@ class hosting {
       ensure  => link,
       path    => "/etc/nginx/sites-enabled/${url}.conf",
       target  => "/etc/nginx/sites-available/${url}.conf",
-      require => File["vhost_${url}"],
+      require => [
+        File["vhost_${url}"],
+        Package['nginx'],
+      ],
     }
 
     file { "custom_${url}":
       ensure  => file,
       path    => "/etc/nginx/sites-available/${url}_custom.inc",
+      require => Package['nginx'],
     }
 
   }
