@@ -12,7 +12,7 @@ server {
               ;
 
   if ($host != '<%= url %>' ) {
-    rewrite ^/(.*)$ http://<%= url %>/$1 permanent;
+    return 301 http://$host$request_uri;
   }
 
   access_log /var/log/nginx/<%= url %>.access.log combined;
