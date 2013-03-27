@@ -15,7 +15,7 @@ server {
               ;
 
   if ($host != '<%= url %>' ) {
-    return 301 http://$host$request_uri;
+    return 301 http://<%= url %>$request_uri;
   }
 
   access_log /var/log/nginx/<%= url %>.access.log combined;
