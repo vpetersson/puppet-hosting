@@ -69,13 +69,13 @@ server {
     include        fastcgi_params;
   }
 
+  # Place any custom code in this file:
+  include sites-available/<%= url %>_custom.inc;
+
   # Include W3 Total Cache code
   include sites-available/w3tc.inc;
 
   <% if cloudflare == 'true' %>
   include sites-available/cloudflare.inc;
   <% end -%>
-
-  # Place any custom code in this file:
-  include sites-available/<%= url %>_custom.inc;
 }
