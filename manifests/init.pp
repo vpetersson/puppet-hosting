@@ -123,7 +123,6 @@ class hosting {
         path    => "/etc/nginx/sites-available/${url}.conf",
         content => template("hosting/${type}.erb"),
         require => [
-          File['w3tc.inc'],
           Package['nginx'],
         ],
       }
