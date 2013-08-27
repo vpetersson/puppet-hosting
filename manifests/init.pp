@@ -30,13 +30,6 @@ class hosting {
     path   => '/www',
   }
 
-  file { 'w3tc.inc':
-    ensure  => file,
-    path    => '/etc/nginx/sites-available/w3tc.inc',
-    source  => 'puppet:///modules/hosting/w3tc.inc',
-    require => Package['nginx'],
-  }
-
   file { 'cloudflare.inc':
     ensure  => file,
     path    => '/etc/nginx/sites-available/cloudflare.inc',

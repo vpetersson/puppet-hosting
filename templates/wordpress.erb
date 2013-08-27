@@ -73,7 +73,12 @@ server {
   include sites-available/<%= url %>_custom.inc;
 
   # Include W3 Total Cache code
-  include sites-available/w3tc.inc;
+  <% if custom_document_root == false %>
+  include /www/<%= url %>/nginx.conf;
+  <% else %>
+  include <%= custom_document_root %>/nginx.conf;
+  <% end -%>
+
 
   <% if cloudflare == 'true' %>
   include sites-available/cloudflare.inc;
