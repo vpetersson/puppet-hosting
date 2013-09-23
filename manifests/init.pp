@@ -101,13 +101,15 @@ class hosting {
         $cloudflare=false, $upstream='NONE'
         ) {
 
-    $www_root = "/www/${url}"
-
     if $custom_document_root == false {
-      file { $www_root:
+      $www_root = "/www/${url}"
+    } else {
+      $www_root = "${custom_document_root}"
+    }
+
+    file { $www_root:
         ensure => directory,
         path   => $www_root,
-      }
     }
 
     if $type == 'custom' {
@@ -116,8 +118,7 @@ class hosting {
         path    => "/etc/nginx/sites-available/${url}.conf",
         require => Package['nginx'],
       }
-    }
-    else {
+    } else {
       file { "vhost_${url}":
         ensure  => file,
         path    => "/etc/nginx/sites-available/${url}.conf",
@@ -125,6 +126,14 @@ class hosting {
         require => [
           Package['nginx'],
         ],
+      }
+    }
+
+    if $type == 'wordpress' {
+      file { 'w3tc_nginx':
+        ensure  => file,
+        path    => "${www_root}/nginx.conf",
+        require => File["${www_root}"],
       }
     }
 
