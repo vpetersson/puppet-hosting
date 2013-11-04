@@ -130,7 +130,7 @@ class hosting {
     }
 
     if $type == 'wordpress' {
-      file { "w3tc_nginx-{url}":
+      file { "w3tc_nginx-${url}":
         ensure  => file,
         path    => "${www_root}/nginx.conf",
         require => File["${www_root}"],
