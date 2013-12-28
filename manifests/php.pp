@@ -18,4 +18,14 @@ class hosting::php {
   service { 'php5-fpm':
     ensure => running,
   }
+
+  file { "www.conf":
+    ensure => file,
+    path => '/etc/php5/fpm/pool.d/www.conf',
+    source  => 'puppet:///modules/hosting/www.conf',
+    owner => root,
+    group => root,
+    notify  => Service["php5-fpm"]
+  }
+
 }
