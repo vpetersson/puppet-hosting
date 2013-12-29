@@ -1,31 +1,31 @@
 # Warning! Managed by Puppet. Do not edit by hand.
-# Hosting name: <%= name  %>
-# Contact person: <%= contact %>
-<% if database != "NONE" %>
-# Database: <%= database %>
+# Hosting name: <%= @name  %>
+# Contact person: <%= @contact %>
+<% if @database != "NONE" %>
+# Database: <%= @database %>
 <% end -%>
-<% if ip != "NONE" %>
-# DNS points to: <%= ip %>
+<% if @ip != "NONE" %>
+# DNS points to: <%= @ip %>
 <% end -%>
 
 server {
-  server_name <%= url %>
+  server_name <%= @url %>
   <% url_aliases.each do |val| -%>
               <%= val %>
   <% end -%>
               ;
 
-  if ($host != '<%= url %>' ) {
+  if ($host != '<%= @url %>' ) {
     return 301 http://<%= url %>$request_uri;
   }
 
-  access_log /var/log/nginx/<%= url %>.access.log combined;
-  error_log /var/log/nginx/<%= url %>.error.log;
+  access_log /var/log/nginx/<%= @url %>.access.log combined;
+  error_log /var/log/nginx/<%= @url %>.error.log;
 
-  <% if custom_document_root == false %>
-  root /www/<%= url %>;
+  <% if @custom_document_root == false %>
+  root /www/<%= @url %>;
   <% else %>
-  root <%= custom_document_root %>;
+  root <%= @custom_document_root %>;
   <% end -%>
 
   location = /favicon.ico {
@@ -72,7 +72,7 @@ server {
   }
 
   location /dumps {
-    root /www/<%= url %>/local;
+    root /www/<%= @url %>/local;
     autoindex on;
   }
 
@@ -91,5 +91,5 @@ server {
   }
 
   # Place any custom code in this file:
-  include sites-available/<%= url %>_custom.inc;
+  include sites-available/<%= @url %>_custom.inc;
 }

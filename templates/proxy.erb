@@ -1,31 +1,31 @@
 # Warning! Managed by Puppet. Do not edit by hand.
-# Hosting name: <%= name  %>
-# Contact person: <%= contact %>
-<% if database != "NONE" %>
+# Hosting name: <%= @name  %>
+# Contact person: <%= @contact %>
+<% if @database != "NONE" %>
 # Database: <%= database %>
 <% end -%>
-<% if ip != "NONE" %>
-# DNS points to: <%= ip %>
+<% if @ip != "NONE" %>
+# DNS points to: <%= @ip %>
 <% end -%>
 
 server {
-  server_name <%= url %>
+  server_name <%= @url %>
   <% url_aliases.each do |val| -%>
               <%= val %>
   <% end -%>
               ;
 
-  if ($host != '<%= url %>' ) {
-    return 301 http://<%= url %>$request_uri;
+  if ($host != '<%= @url %>' ) {
+    return 301 http://<%= @url %>$request_uri;
   }
 
-  access_log /var/log/nginx/<%= url %>.access.log combined;
-  error_log /var/log/nginx/<%= url %>.error.log;
+  access_log /var/log/nginx/<%= @url %>.access.log combined;
+  error_log /var/log/nginx/<%= @url %>.error.log;
 
   client_max_body_size 5m;
 
-  <% if custom_document_root != false %>
-  root <%= custom_document_root %>;
+  <% if @custom_document_root != false %>
+  root <%= @custom_document_root %>;
   <% end %>
 
   location = /favicon.ico {
@@ -55,13 +55,13 @@ server {
     proxy_set_header        Host            $host;
     proxy_set_header        X-Real-IP       $remote_addr;
     proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_pass              http://<%= upstream %>;
+    proxy_pass              http://<%= @upstream %>;
   }
 
-  <% if cloudflare == 'true' %>
+  <% if @cloudflare == 'true' %>
   include sites-available/cloudflare.inc;
   <% end -%>
 
   # Place any custom code in this file:
-  include sites-available/<%= url %>_custom.inc;
+  include sites-available/<%= @url %>_custom.inc;
 }
