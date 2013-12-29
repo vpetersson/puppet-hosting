@@ -1,34 +1,34 @@
 # Warning! Managed by Puppet. Do not edit by hand.
-# Hosting name: <%= name  %>
-# Contact person: <%= contact %>
-<% if database != "NONE" %>
-# Database: <%= database %>
+# Hosting @name: <%= @name  %>
+# @contact person: <%= @contact %>
+<% if @database != "NONE" %>
+# @database: <%= @database %>
 <% end -%>
-<% if ip != "NONE" %>
-# DNS points to: <%= ip %>
+<% if @ip != "NONE" %>
+# DNS points to: <%= @ip %>
 <% end -%>
 
 server {
-  server_name <%= url %>
-  <% url_aliases.each do |val| -%>
+  server_name <%= @url %>
+  <% @url_aliases.each do |val| -%>
               <%= val %>
   <% end -%>
               ;
 
-  if ($host != '<%= url %>' ) {
-    return 301 http://<%= url %>$request_uri;
+  if ($host != '<%= @url %>' ) {
+    return 301 http://<%= @url %>$request_uri;
   }
 
-  access_log /var/log/nginx/<%= url %>.access.log combined;
-  error_log /var/log/nginx/<%= url %>.error.log;
+  access_log /var/log/nginx/<%= @url %>.access.log combined;
+  error_log /var/log/nginx/<%= @url %>.error.log;
 
   client_max_body_size 5m;
 
   index index.php;
-  <% if custom_document_root == false %>
-  root /www/<%= url %>;
+  <% if @custom_document_root == false %>
+  root /www/<%= @url %>;
   <% else %>
-  root <%= custom_document_root %>;
+  root <%= @custom_document_root %>;
   <% end -%>
 
   location = /favicon.ico {
@@ -70,17 +70,17 @@ server {
   }
 
   # Place any custom code in this file:
-  include sites-available/<%= url %>_custom.inc;
+  include sites-available/<%= @url %>_custom.inc;
 
   # Include W3 Total Cache code
-  <% if custom_document_root == false %>
-  include /www/<%= url %>/nginx.conf;
+  <% if @custom_document_root == false %>
+  include /www/<%= @url %>/nginx.conf;
   <% else %>
-  include <%= custom_document_root %>/nginx.conf;
+  include <%= @custom_document_root %>/nginx.conf;
   <% end -%>
 
 
-  <% if cloudflare == 'true' %>
+  <% if @cloudflare == 'true' %>
   include sites-available/cloudflare.inc;
   <% end -%>
 }
